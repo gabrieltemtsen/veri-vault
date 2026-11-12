@@ -2,6 +2,8 @@
 
 Non-custodial cross-chain quantitative vaults on NEAR Protocol with on-chain policy enforcement, sub-account strategy tournaments, and enclave-attested investment theses.
 
+**Live terminal:** https://veri-vault-wine.vercel.app · **Testnet contracts:** [`verivault-vault-4957.testnet`](https://testnet.nearblocks.io/address/verivault-vault-4957.testnet) / [`verivault-guard-4957.testnet`](https://testnet.nearblocks.io/address/verivault-guard-4957.testnet)
+
 ## Overview
 
 Giving automated trading agents full-access wallet keys exposes LPs to unbounded execution risk (high-slippage swaps, unauthorized bridges, or prompt-injected drain attempts), while off-chain strategy engines rarely prove the quantitative model behind their trades.
