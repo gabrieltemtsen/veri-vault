@@ -80,7 +80,7 @@ export interface AttestResponse {
   }[];
 }
 
-// Stateless TEE attestation endpoint: nothing is persisted server-side after the response returns (Track 03/privacy).
+// Stateless TEE attestation endpoint: nothing is persisted server-side after the response returns.
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as {

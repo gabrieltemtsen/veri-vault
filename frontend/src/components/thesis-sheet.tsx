@@ -152,8 +152,8 @@ export function ThesisSheet() {
         <div className="flex items-center gap-5 border-b border-zinc-800 px-6 text-xs font-medium overflow-x-auto">
           {[
             { id: "metrics", label: "Quantitative metrics" },
-            { id: "enclave", label: "TEE attestation (03/PRV)" },
-            { id: "intents", label: "1Click dry-run (01/DFI)" },
+            { id: "enclave", label: "TEE attestation" },
+            { id: "intents", label: "1Click quote" },
             { id: "json", label: "Canonical JSON" },
           ].map((t) => (
             <button
@@ -409,7 +409,7 @@ export function ThesisSheet() {
                     NEAR Intents 1Click API · Zero-funds dry-run quote (`dry: true`)
                   </div>
                   <div className="mt-0.5 text-xs text-zinc-400">
-                    Simulates 1Click quote & status lifecycle (`SUCCESS`, `REFUNDED`, `FAILED`) per Q-007
+                    Dry-run solver quote and status lifecycle (`SUCCESS`, `REFUNDED`, `FAILED`)
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5">

@@ -1,29 +1,26 @@
-# VeriVault Autonomous Business & PolicyGuard Configuration (Track 04/business & 06/security)
-# Humans set these constraints once; the sub-account swarm and on-chain contracts enforce them autonomously.
+# VeriVault Operational & PolicyGuard Configuration
 
 vault:
-  contract_id: "verivault.near"
-  policy_guard_id: "policy-guard.verivault.near"
+  contract_id: "verivault-vault-4957.testnet"
+  policy_guard_id: "verivault-guard-4957.testnet"
   intents_verifier_id: "verifier.near"
   mpc_signer_id: "v1.signer"
   base_asset: "USDC"
   share_symbol: "vUSDC"
   decimals: 6
 
-autonomous_business:
-  # Track 04 (business) & Track 07 (agents) constraints
+treasury_and_fees:
   max_inference_spend_usdc_per_day: 2500
   min_net_apy_bps_threshold: 800
-  x402_compute_fee_bps: 1000           # 10.00% of profitable epoch yield routed to autonomous TEE compute treasury
+  x402_compute_fee_bps: 1000           # 10.00% of profitable epoch yield routed to TEE compute treasury
   revenue_split:
-    lp_net_yield_bps: 9000             # 90.00% compounded directly into ERC-4626 vUSDC share value
-    x402_tee_compute_treasury_bps: 1000 # 10.00% routed to autonomous_compute_treasury_usdc (NEAR AI Cloud + oracle feeds)
+    lp_net_yield_bps: 9000             # 90.00% compounded into ERC-4626 vUSDC share value
+    x402_tee_compute_treasury_bps: 1000 # 10.00% routed to autonomous_compute_treasury_usdc
   kill_switch:
-    auto_trip_on_drawdown_bps: 300     # Automatically trips circuit_breaker_tripped on-chain if drawdown > 3.00%
-    owner_manual_override: true        # Vault owner can call reset_circuit_breaker() on policy-guard.verivault.near
+    auto_trip_on_drawdown_bps: 300     # Trips circuit_breaker_tripped on-chain if drawdown > 3.00%
+    owner_manual_override: true        # Vault owner can call reset_circuit_breaker() on PolicyGuard
 
 policy_guard_invariants:
-  # Track 06 (security) hard on-chain invariants enforced by PolicyGuardContract::verify_intent
   max_slippage_bps: 50                 # <= 0.50% max oracle slippage
   max_asset_concentration_bps: 4000    # <= 40.00% max single-asset exposure
   max_daily_drawdown_bps: 300          # <= 3.00% max daily vault drawdown
@@ -34,10 +31,9 @@ policy_guard_invariants:
     - "base"
 
 swarm_coordination:
-  # Track 05 (swarms) sub-account access key & slashing parameters
-  parent_account: "verivault.near"
+  parent_account: "verivault-vault-4957.testnet"
   scoped_method_name: "submit_epoch_bid"
   access_key_allowance_near: "0.25"
   min_agent_bond_usdc: 1000
-  malicious_bid_slash_bps: 2500        # 25.00% bond slashed immediately on PolicyGuard rejection
+  malicious_bid_slash_bps: 2500        # 25.00% bond slashed on PolicyGuard rejection
   max_strikes_before_deactivation: 2

@@ -1,33 +1,30 @@
-# THESIS.md — Evidence-First Quantitative & Ecosystem Thesis (`thesis` Track)
+# Quantitative & Ecosystem Thesis
 
-> **Track:** `02 / Investment Thesis` (`id: thesis`)
-> **Reproducible Verification Command:**
-> ```bash
-> cd agents && npm test && npx tsx src/run-simulation.ts
-> cd ../frontend && npx tsx scripts/verify-thesis-parity.ts
-> ```
+Reproducible verification commands:
+```bash
+cd agents && npm test && npx tsx src/run-simulation.ts
+cd ../frontend && npx tsx scripts/verify-thesis-parity.ts
+```
 
 ---
 
-## 1. The Falsifiable Claim
+## 1. Working Hypothesis
 
 **Claim:** *Intent-settled cross-chain volume through NEAR Intents (`intents.near` / `verifier.near`) combined with deterministic, enclave-attested agent execution is a stronger leading indicator of sustainable NEAR economic value capture than raw layer-1 transaction count or short-term token price.*
 
-Specifically, we test two linked hypotheses:
-1. **Macro (Protocol Thesis):** As cross-chain liquidity migrates from custodial bridges to solver-executed NEAR Intents (`verifier.near`) and MPC Chain Signatures (`v1.signer`), NEAR captures high-value settlement flow across Solana, Arbitrum, Base, and Ethereum without requiring users or LPs to bridge manually.
-2. **Micro (Vault Strategy Thesis):** A multi-agent sub-account swarm (`*.verivault.near`) competing on risk-adjusted return ($\text{Expected APY} \times \text{Annualized Sharpe Ratio}$) while constrained by an on-chain deterministic `PolicyGuard` ($\text{slippage} \le 50\text{ bps}$, $\text{concentration} \le 40\%$, $\text{daily drawdown} \le 300\text{ bps}$) outperforms single-venue passive yield while eliminating prompt-injection and sandwich-MEV tail risk.
+We test two linked hypotheses:
+1. **Protocol Layer:** As cross-chain liquidity migrates from custodial bridges to solver-executed NEAR Intents (`verifier.near`) and MPC Chain Signatures (`v1.signer`), NEAR captures cross-chain settlement flow across Solana, Arbitrum, Base, and Ethereum without requiring users or LPs to bridge manually.
+2. **Strategy Layer:** A multi-agent sub-account swarm (`*.verivault.near`) competing on risk-adjusted return ($\text{Expected APY} \times \text{Annualized Sharpe Ratio}$) while constrained by an on-chain `PolicyGuard` ($\text{slippage} \le 50\text{ bps}$, $\text{concentration} \le 40\%$, $\text{daily drawdown} \le 300\text{ bps}$) outperforms single-venue passive yield while eliminating prompt-injection and sandwich-MEV tail risk.
 
 ---
 
-## 2. Reproducible On-Chain Data Queries (NEAR BigQuery & 1Click Explorer)
+## 2. On-Chain Data Queries (NEAR BigQuery & 1Click API)
 
-Anyone can reproduce the macro dataset using the **NEAR Public BigQuery Dataset** (`bigquery-public-data.crypto_near_mainnet_us`) and the **NEAR Intents 1Click / Explorer API**. Every BigQuery query filters on `block_date` to bound scan cost.
+The macro dataset can be reproduced from the **NEAR Public BigQuery Dataset** (`bigquery-public-data.crypto_near_mainnet_us`) and the **NEAR Intents 1Click API**. Every BigQuery query filters on `block_date` to bound scan size.
 
-### Query A — Daily NEAR Intents (`intents.near`) Settlement Receipts vs. Network-Wide Active Accounts
+### Query A — Daily NEAR Intents (`intents.near`) Settlement Receipts vs. Active Callers
 
 ```sql
--- Target: bigquery-public-data.crypto_near_mainnet_us.receipts
--- Purpose: Measure daily intent settlement activity and unique caller accounts on intents.near
 SELECT
   block_date,
   COUNT(DISTINCT receipt_id) AS intents_receipt_count,
@@ -43,11 +40,9 @@ ORDER BY
   block_date DESC;
 ```
 
-### Query B — MPC Chain Signature (`v1.signer`) Cross-Chain Signing Demand & Gas Burn
+### Query B — MPC Chain Signature (`v1.signer`) Signing Demand & Gas Burn
 
 ```sql
--- Target: bigquery-public-data.crypto_near_mainnet_us.execution_outcomes
--- Purpose: Track succeeded cross-chain MPC signature derivations on v1.signer
 SELECT
   o.block_date,
   COUNT(o.receipt_id) AS mpc_sign_outcomes,
@@ -68,11 +63,9 @@ ORDER BY
   o.block_date DESC;
 ```
 
-### Query C — Sub-Account Agent Proliferation & Function-Call Access Key Usage
+### Query C — Sub-Account Creation & Scoped Function-Call Activity
 
 ```sql
--- Target: bigquery-public-data.crypto_near_mainnet_us.action_receipt_actions
--- Purpose: Quantify programmatic sub-account creation and scoped FunctionCall actions
 SELECT
   block_date,
   action_kind,
@@ -90,9 +83,9 @@ ORDER BY
   action_count DESC;
 ```
 
-### Query D — NEAR Intents 1Click API Dry-Run Quote Probe (Zero-Funds Reproducible Check)
+### Query D — NEAR Intents 1Click API Dry-Run Quote Probe
 
-Per `HACKATHON.md` (`Q-007`), judges can verify cross-chain intent pricing without spending mainnet funds using `dry: true`:
+Cross-chain intent pricing can be queried without spending funds using `dry: true`:
 
 ```bash
 curl -sS -X POST https://1click.chaindefuser.com/v0/quote \
@@ -115,11 +108,11 @@ curl -sS -X POST https://1click.chaindefuser.com/v0/quote \
 
 ---
 
-## 3. Reproducible Quantitative Model & Canonical SHA-256 Verification
+## 3. Quantitative Model & Canonical SHA-256 Commitment
 
-Every epoch thesis in VeriVault is generated deterministically from a 14-day return series $\mathbf{r} = (r_1, \dots, r_N)$ in basis points ([`agents/src/thesis-engine.ts`](file:///Users/gabrieltemtsen/Desktop/verivault/agents/src/thesis-engine.ts) and [`frontend/src/lib/quant.ts`](file:///Users/gabrieltemtsen/Desktop/verivault/frontend/src/lib/quant.ts)):
+Each epoch thesis is computed deterministically from a 14-day return series $\mathbf{r} = (r_1, \dots, r_N)$ in basis points ([`agents/src/thesis-engine.ts`](./agents/src/thesis-engine.ts) and [`frontend/src/lib/quant.ts`](./frontend/src/lib/quant.ts)):
 
-1. **Sample Mean & Sample Variance ($N - 1$ degrees of freedom):**
+1. **Sample Mean & Variance ($N - 1$ degrees of freedom):**
    $$\bar{r} = \frac{1}{N}\sum_{t=1}^N r_t, \qquad s^2 = \frac{1}{N-1}\sum_{t=1}^N (r_t - \bar{r})^2, \qquad s = \sqrt{s^2}$$
 2. **Annualized Volatility & Annualized Sharpe Ratio ($R_f = 450\text{ bps}$):**
    $$\sigma_{\text{ann}} = s \sqrt{365}, \qquad \text{Sharpe} = \frac{\text{APY}_{\text{net}} - R_f}{\sigma_{\text{ann}}}$$
@@ -128,7 +121,7 @@ Every epoch thesis in VeriVault is generated deterministically from a 14-day ret
 4. **Canonical Commitment (`thesis_sha256`):**
    $$\text{thesis\_sha256} = \text{SHA-256}\left(\text{canonicalizeJson}(\text{ThesisPayload})\right)$$
 
-### Empirical Results Across the 4-Agent Swarm (Epoch #14 Baseline)
+### Baseline Results Across the 4-Agent Swarm (Epoch #14)
 
 | Sub-Account Agent | Target Venue | Expected Net APY | Annualized Vol | Annualized Sharpe | 95% Daily VaR | Max Drawdown | Risk-Adjusted Score | PolicyGuard Verdict |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | :--- |
@@ -139,19 +132,19 @@ Every epoch thesis in VeriVault is generated deterministically from a 14-day ret
 
 ---
 
-## 4. Evidence For the Thesis, Evidence Against It, & What Would Change Our Mind
+## 4. Evidence For, Evidence Against, & Falsification Criteria
 
-### Evidence Supporting the Thesis
-- **Zero-Bridge Execution Efficiency:** Settling cross-chain allocations via NEAR Intents (`verifier.near`) eliminates multi-hop bridge wrapping risk and shifts execution price improvement to competing off-chain solvers bounded by on-chain `min_amount_out` invariants.
-- **Cryptographic Separation of Alpha and Custody:** Sub-account agents hold only a `0.25 NEAR` `FunctionCall` key scoped to `submit_epoch_bid`. Even when `rogue.verivault.near` is compromised by prompt injection (proposing a `1500 bps` slippage swap), `PolicyGuardContract::verify_intent` deterministically rejects the proposal in the `on_guard_verdict` callback and slashes `25%` (`$2,500 USDC`) of the agent's bond into LP assets.
-- **Reproducible Auditability:** Both Node.js (`agents/src/thesis-engine.ts`) and browser (`frontend/src/lib/quant.ts`) implementations produce identical 64-byte `SHA-256` digests across all epochs (verified by `frontend/scripts/verify-thesis-parity.ts`).
+### Supporting Evidence
+- **Solver-Executed Cross-Chain Settlement:** Settling allocations via NEAR Intents (`verifier.near`) removes manual bridge wrapping risk and bounds worst-case execution via on-chain `min_amount_out` invariants.
+- **Separation of Alpha and Custody:** Sub-account agents hold only a `0.25 NEAR` `FunctionCall` key scoped to `submit_epoch_bid`. When `rogue.verivault.near` submits a `1500 bps` slippage swap, `PolicyGuardContract::verify_intent` rejects the proposal in `on_guard_verdict` and slashes `25%` (`$2,500 USDC`) of the agent's bond into LP assets.
+- **Cross-Runtime Reproducibility:** Both Node.js (`agents/src/thesis-engine.ts`) and browser (`frontend/src/lib/quant.ts`) implementations produce identical 64-byte `SHA-256` digests across all epochs.
 
-### Evidence Cutting Against the Thesis (Honest Limitations)
-1. **Solver Liquidity Depth During Tail Volatility:** NEAR Intents relies on off-chain market makers/solvers to fill cross-chain quotes within `max_slippage_bps <= 50`. During a cross-market liquidity crunch, solver spreads can widen beyond `50 bps`, causing `PolicyGuard` to reject rebalance proposals and leaving capital idle in the current venue.
-2. **Asynchronous Cross-Contract Latency:** On NEAR, `settle_epoch_async` $\rightarrow$ `policy-guard::verify_intent` $\rightarrow$ `on_guard_verdict` $\rightarrow$ `v1.signer` spans multiple blocks (~2–4 seconds), plus external chain finality for MPC-signed transactions. Sub-second latency arbitrage cannot be executed through this pipeline.
-3. **Parametric VaR Assumption:** Parametric 95% daily VaR assumes near-normal daily return innovations; DeFi protocol exploits or depeg events exhibit fat-tailed kurtosis not captured by a 14-day window alone (which is why our on-chain `max_daily_drawdown_bps = 300` circuit breaker is mandatory).
+### Counter-Evidence & Limitations
+1. **Solver Spread Widening in Stressed Markets:** NEAR Intents relies on off-chain market makers to fill cross-chain quotes within `max_slippage_bps <= 50`. During high volatility, solver spreads can widen past `50 bps`, causing `PolicyGuard` to reject rebalance proposals and keeping capital in the prior allocation.
+2. **Multi-Block Cross-Contract Latency:** On NEAR, `settle_epoch_async` $\rightarrow$ `policy-guard::verify_intent` $\rightarrow$ `on_guard_verdict` $\rightarrow$ `v1.signer` spans multiple blocks (~2–4 seconds) plus destination chain finality. Sub-second arbitrage cannot be executed through this pipeline.
+3. **Parametric VaR Tail Assumptions:** Parametric 95% daily VaR assumes near-normal daily returns; smart contract exploits or stablecoin depegs exhibit fat-tailed risk not captured by a 14-day window alone, making the on-chain `max_daily_drawdown_bps = 300` circuit breaker necessary.
 
-### What Result Would Change Our Mind (Falsification Criteria)
-We would reject or revise this thesis if either of the following occurred over a 90-day live window:
-1. **Solver Quote Rejection Rate $> 25\%$:** If more than 25% of honest epoch rebalance intents (`$100k–$500k` notional) fail to receive a 1Click solver quote within `50 bps` of the TWAP oracle across Arbitrum, Solana, and Base.
-2. **Negative Net Alpha After x402 Compute Overhead:** If the 10% x402 autonomous compute fee (`X402_COMPUTE_FEE_BPS = 1000`) plus 1Click solver fees (`20 bps` unauthenticated / `0 bps` partner JWT) reduce net LP APY below the passive single-chain USDC supply rate on Rhea Finance or Aave v3 for 30 consecutive epochs.
+### What Would Change Our Mind
+We would revise or reject this thesis if either of the following held over a 90-day live window:
+1. **Solver Quote Rejection Rate $> 25\%$:** If more than 25% of rebalance intents (`$100k–$500k` notional) fail to receive a 1Click solver quote within `50 bps` of the TWAP oracle across Arbitrum, Solana, and Base.
+2. **Negative Net Alpha After Compute & Solver Fees:** If the 10% x402 compute fee (`X402_COMPUTE_FEE_BPS = 1000`) plus 1Click solver fees (`20 bps` unauthenticated / `0 bps` partner JWT) reduce net LP APY below passive single-chain USDC lending on Rhea Finance or Aave v3 for 30 consecutive epochs.

@@ -11,7 +11,7 @@ pub const BPS_DENOMINATOR: u128 = 10_000;
 pub const SLASH_PENALTY_BPS: u128 = 2_500;
 /// Minimum required bond to participate in epoch bidding (1,000 USDC in 6-decimal base units)
 pub const MIN_AGENT_STAKE_USDC: u128 = 1_000_000_000;
-/// 10% of epoch yield is routed to x402 autonomous compute & data feeds (Track 04 / BUS)
+/// 10% of epoch yield is routed to x402 autonomous compute & data feeds
 pub const X402_COMPUTE_FEE_BPS: u128 = 1_000;
 
 #[derive(BorshStorageKey)]
@@ -52,7 +52,7 @@ pub struct GuardVerdict {
     pub evaluated_at_ns: u64,
 }
 
-/// Profile and bond state for a registered Swarm Sub-Account Agent (Track 05 / SWM).
+/// Profile and bond state for a registered Swarm Sub-Account Agent.
 #[near(serializers = [json, borsh])]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AgentProfile {
@@ -124,7 +124,7 @@ pub struct EpochSettlementReceipt {
     pub guard_verdict: GuardVerdict,
 }
 
-/// VeriVault Master Vault Contract (Tracks 01 / DFI, 05 / SWM, 04 / BUS).
+/// VeriVault Master Vault Contract.
 /// Manages ERC-4626 LP share accounting, sub-account swarm spawning with scoped Function Call
 /// Access Keys, stake-backed epoch bidding tournaments, asynchronous cross-contract PolicyGuard
 /// verification, and NEAR Intents + Chain Signatures execution.
@@ -179,7 +179,7 @@ impl MasterVaultContract {
     }
 
     // =========================================================================
-    // 1. ERC-4626 DETERMINISTIC VAULT SHARE ACCOUNTING (Track 01 / DFI)
+    // 1. ERC-4626 DETERMINISTIC VAULT SHARE ACCOUNTING
     // =========================================================================
 
     /// Deposits USDC into the vault and mints proportional LP shares using ERC-4626 math.
@@ -272,7 +272,7 @@ impl MasterVaultContract {
     }
 
     // =========================================================================
-    // 2. SUB-ACCOUNT SWARM REGISTRATION & SCOPED ACCESS KEYS (Track 05 / SWM)
+    // 2. SUB-ACCOUNT SWARM REGISTRATION & SCOPED ACCESS KEYS
     // =========================================================================
 
     /// Registers a competing quantitative strategy agent under `{sub_account_prefix}.{current_account_id}`
@@ -359,7 +359,7 @@ impl MasterVaultContract {
     }
 
     // =========================================================================
-    // 3. EPOCH BIDDING & SLASHING ENGINE (Tracks 02 / INV & 06 / SEC)
+    // 3. EPOCH BIDDING & SLASHING ENGINE
     // =========================================================================
 
     /// Submits a reproducible investment thesis hash and rebalance intent for the active epoch.
@@ -509,7 +509,7 @@ impl MasterVaultContract {
     }
 
     // =========================================================================
-    // 4. ASYNC CROSS-CONTRACT PROMISE PIPELINE (Phase 6 AI Judge Multiplier)
+    // 4. ASYNC CROSS-CONTRACT PROMISE PIPELINE
     // =========================================================================
 
     /// Executes a genuine asynchronous Cross-Contract Call (`Promise::new`) to `policy-guard`
@@ -730,7 +730,7 @@ impl MasterVaultContract {
                 .insert(winning_bid.agent_id.clone(), profile);
         }
 
-        // Accrue simulated epoch yield & route 10% x402 autonomous compute fee (Track 04 / BUS)
+        // Accrue simulated epoch yield & route 10% x402 autonomous compute fee
         // Weekly epoch yield approximation: total_assets * expected_apy_bps / (10_000 * 52)
         let gross_epoch_yield = (self
             .total_assets_usdc

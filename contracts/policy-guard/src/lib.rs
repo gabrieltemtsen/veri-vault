@@ -34,7 +34,7 @@ pub struct GuardVerdict {
     pub evaluated_at_ns: u64,
 }
 
-/// Deterministic On-Chain Risk Engine (Track 06 / SEC).
+/// Deterministic On-Chain Risk Engine.
 /// Enforces immutable slippage, asset concentration, chain whitelist, and daily drawdown invariants
 /// before any autonomous AI swarm agent can execute a cross-chain NEAR Intent.
 #[near(contract_state)]

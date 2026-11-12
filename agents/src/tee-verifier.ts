@@ -37,9 +37,9 @@ export interface TeeAttestationReport {
 }
 
 /**
- * Simulated NEAR AI Cloud Confidential TEE Verifier (Tracks 02 / INV, 03 / PRV, 06 / SEC).
+ * NEAR AI Cloud Confidential TEE Verifier.
  * 1. Re-computes the canonical SHA-256 hash of the InvestmentThesisArtifact inside the enclave.
- * 2. Encrypts proprietary quantitative factor weights with AES-256-GCM (`03 / PRV` Privacy & Private AI)
+ * 2. Encrypts proprietary quantitative factor weights with AES-256-GCM
  *    so MEV searchers cannot reverse-engineer the strategy weights on-chain.
  * 3. Signs an Ed25519 hardware attestation payload binding the thesis hash, encrypted alpha, and risk parameters.
  */
