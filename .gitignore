@@ -1,0 +1,20 @@
+# Rust / Cargo
+/target/
+
+# Node / TypeScript
+node_modules/
+npm-debug.log*
+
+# Next.js
+frontend/.next/
+frontend/.next-build/
+frontend/out/
+frontend/tsconfig.tsbuildinfo
+
+# Environment & Secrets (Never commit private keys or API tokens)
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store

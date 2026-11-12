@@ -1,0 +1,55 @@
+{
+  "network": "testnet",
+  "rpcUrl": "https://rpc.testnet.near.org",
+  "deployedAt": "2026-11-12T10:52:31.422Z",
+  "contracts": {
+    "policyGuard": {
+      "accountId": "verivault-guard-4957.testnet",
+      "explorerUrl": "https://testnet.nearblocks.io/address/verivault-guard-4957.testnet",
+      "deployAndInitTxHash": "BzvqnxpWnPiPqe7Fc8gCXya6m2XxMV7uFaEMgY4mBCEA",
+      "deployTxUrl": "https://testnet.nearblocks.io/txns/BzvqnxpWnPiPqe7Fc8gCXya6m2XxMV7uFaEMgY4mBCEA"
+    },
+    "masterVault": {
+      "accountId": "verivault-vault-4957.testnet",
+      "explorerUrl": "https://testnet.nearblocks.io/address/verivault-vault-4957.testnet",
+      "deployAndInitTxHash": "143qKWJDg8uUFNqe7UiBJ8AMpmmJ5EJQN4kiZRhw8TXj",
+      "deployTxUrl": "https://testnet.nearblocks.io/txns/143qKWJDg8uUFNqe7UiBJ8AMpmmJ5EJQN4kiZRhw8TXj"
+    },
+    "spawnedSubAgent": {
+      "accountId": "momentum.verivault-vault-4957.testnet",
+      "scopedPublicKey": "ed25519:Hn7HKuDfiwXPgiSYbXWJoaYRktrgVoJpfMgWgFry4qUS",
+      "allowedMethod": "submit_epoch_bid",
+      "allowanceNear": "0.25",
+      "spawnTxHash": "RmqA8VTubwQFgV4bgid9EP9HqkcxwDnPHef6bcSUubX",
+      "spawnTxUrl": "https://testnet.nearblocks.io/txns/RmqA8VTubwQFgV4bgid9EP9HqkcxwDnPHef6bcSUubX"
+    }
+  },
+  "transactions": {
+    "depositAndBidSubmissionTxHash": "ANF1z5BJnnkdHq1GFYw76scJsWBAVbi2Kw1rAoct56Pf",
+    "depositAndBidSubmissionUrl": "https://testnet.nearblocks.io/txns/ANF1z5BJnnkdHq1GFYw76scJsWBAVbi2Kw1rAoct56Pf",
+    "asyncCrossContractSlashTxHash": "3LzuzpSgpkh1JyiMCrgcXBnh76NVByM7LtSky5S8jGjr",
+    "asyncCrossContractSlashUrl": "https://testnet.nearblocks.io/txns/3LzuzpSgpkh1JyiMCrgcXBnh76NVByM7LtSky5S8jGjr",
+    "epochSettlementTxHash": "6nq9xVGF8nkEsL4JSKrJk6Y5KzUVzdskBUFaAh5p3sXf",
+    "epochSettlementUrl": "https://testnet.nearblocks.io/txns/6nq9xVGF8nkEsL4JSKrJk6Y5KzUVzdskBUFaAh5p3sXf"
+  },
+  "verifiedOnChainState": {
+    "total_assets_usdc": "1254002403846",
+    "total_shares": "1250000000000",
+    "share_price_usdc_6dec": "1003201",
+    "current_epoch": 2,
+    "autonomous_compute_treasury_usdc": "444711538",
+    "registered_agent_count": 2,
+    "active_epoch_proposals": 0
+  },
+  "nep297EventsEmittedOnChain": [
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"sub_agent_registered\",\"data\":[{\"agent_id\":\"momentum.verivault-vault-4957.testnet\",\"scoped_public_key\":\"ed25519:Hn7HKuDfiwXPgiSYbXWJoaYRktrgVoJpfMgWgFry4qUS\",\"allowed_method\":\"submit_epoch_bid\",\"staked_balance_usdc\":\"10000000000\",\"reputation_score\":100}]}",
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"vault_deposit\",\"data\":[{\"lp_account\":\"verivault-vault-4957.testnet\",\"amount_usdc\":\"1250000000000\",\"shares_minted\":\"1250000000000\",\"total_assets_usdc\":\"1250000000000\",\"total_shares\":\"1250000000000\"}]}",
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"sub_agent_registered\",\"data\":[{\"agent_id\":\"rogue.verivault-vault-4957.testnet\",\"scoped_public_key\":\"ed25519:GEZs42zJSs8kHWyKcpbWBd714cm4qH3njbS3M1A2cvME\",\"allowed_method\":\"submit_epoch_bid\",\"staked_balance_usdc\":\"10000000000\",\"reputation_score\":100}]}",
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"epoch_bid_submitted\",\"data\":[{\"epoch\":1,\"agent_id\":\"momentum.verivault-vault-4957.testnet\",\"stake_amount\":\"5000000000\",\"expected_apy_bps\":1850,\"sharpe_ratio_scaled\":771,\"thesis_sha256\":\"87a3de95983be4b9deac7ce2197b71c7a5ddc1d80d64314fa0803120f979d308\",\"target_chain\":\"solana\"}]}",
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"epoch_bid_submitted\",\"data\":[{\"epoch\":1,\"agent_id\":\"rogue.verivault-vault-4957.testnet\",\"stake_amount\":\"5000000000\",\"expected_apy_bps\":3500,\"sharpe_ratio_scaled\":695,\"thesis_sha256\":\"485bd603903b33f60b416539062faed6ebfc1fb5a2c802519a99c14a0f361e5f\",\"target_chain\":\"arbitrum\"}]}",
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"intent_rejected\",\"data\":[{\"agent_id\":\"rogue.verivault-vault-4957.testnet\",\"approved\":false,\"target_chain\":\"arbitrum\",\"source_asset\":\"USDC\",\"target_asset\":\"aArbUSDCn\",\"amount_in\":\"400000000000\",\"min_amount_out\":\"340000000000\",\"oracle_expected_out\":\"400000000000\",\"computed_slippage_bps\":1500,\"post_trade_concentration_bps\":3800,\"current_drawdown_bps\":17,\"circuit_breaker_tripped\":false,\"thesis_sha256\":\"485bd603903b33f60b416539062faed6ebfc1fb5a2c802519a99c14a0f361e5f\",\"reason\":\"SLIPPAGE_EXCEEDED: computed slippage 1500 bps exceeds max_slippage_bps 50 bps\",\"evaluated_at_ns\":1794480734621805125}]}",
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"agent_slashed\",\"data\":[{\"epoch\":1,\"agent_id\":\"rogue.verivault-vault-4957.testnet\",\"slashed_amount_usdc\":\"2500000000\",\"remaining_stake_usdc\":\"7500000000\",\"slash_count\":1,\"is_active\":true,\"reason\":\"SLIPPAGE_EXCEEDED: computed slippage 1500 bps exceeds max_slippage_bps 50 bps\"}]}",
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"async_epoch_proposal_slashed\",\"data\":[{\"epoch\":1,\"agent_id\":\"rogue.verivault-vault-4957.testnet\",\"slashed_usdc\":\"2500000000\",\"reason\":\"SLIPPAGE_EXCEEDED: computed slippage 1500 bps exceeds max_slippage_bps 50 bps\"}]}",
+    "EVENT_JSON:{\"standard\":\"nep297\",\"version\":\"1.0.0\",\"event\":\"epoch_settled_and_intent_dispatched\",\"data\":[{\"epoch\":1,\"winning_agent\":\"momentum.verivault-vault-4957.testnet\",\"winning_risk_adjusted_score\":1426350,\"expected_apy_bps\":1850,\"sharpe_ratio_scaled\":771,\"thesis_sha256\":\"87a3de95983be4b9deac7ce2197b71c7a5ddc1d80d64314fa0803120f979d308\",\"slashed_agents\":[],\"total_slashed_usdc\":\"0\",\"x402_compute_fee_routed_usdc\":\"444711538\",\"verifier_contract\":\"verifier.near\",\"mpc_signer_contract\":\"v1.signer\",\"mpc_derivation_path\":\"verivault-epoch-1-solana\",\"new_total_assets_usdc\":\"1254002403846\"}]}"
+  ]
+}
